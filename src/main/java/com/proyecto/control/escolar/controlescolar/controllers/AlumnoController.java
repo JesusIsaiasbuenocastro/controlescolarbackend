@@ -23,7 +23,7 @@ import com.proyecto.control.escolar.controlescolar.components.alumnos.ResponseAl
 import com.proyecto.control.escolar.controlescolar.model.AlumnoModel;
 import com.proyecto.control.escolar.controlescolar.service.AlumnoService;
 
-@CrossOrigin(origins = "http://localhost:3000/")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
 public class AlumnoController {

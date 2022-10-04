@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import com.proyecto.control.escolar.controlescolar.components.maestros.ResponseM
 import com.proyecto.control.escolar.controlescolar.model.MaestroModel; 
 import com.proyecto.control.escolar.controlescolar.service.MaestroService;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
 public class MaestrosController {
