@@ -3,9 +3,15 @@ package com.proyecto.control.escolar.controlescolar.serviceImpl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.proyecto.control.escolar.controlescolar.components.alumnos.ResponseAlumnoMatricula;
 import com.proyecto.control.escolar.controlescolar.model.AlumnoModel;
 import com.proyecto.control.escolar.controlescolar.repository.AlumnoRepository;
 import com.proyecto.control.escolar.controlescolar.service.AlumnoService;
@@ -15,6 +21,9 @@ public class AlumnoServiceImpl implements AlumnoService{
 	
 	@Autowired
 	AlumnoRepository alumnoRepository;
+	
+	@PersistenceContext
+    private EntityManager em;
 	
 	@Override
 	public void guardar(AlumnoModel alumno) {
@@ -51,6 +60,21 @@ public class AlumnoServiceImpl implements AlumnoService{
 	public void eliminar(Long id) {
 		alumnoRepository.deleteById(id);
 		
+	}
+
+	@Override
+	public List<AlumnoModel> obtenerLista() {
+		
+		 StoredProcedureQuery obtenerRegistrosAlumnos =
+	              em.createNamedStoredProcedureQuery("obteneralumnos");
+	        return obtenerRegistrosAlumnos.getResultList();
+	}
+
+	@Override
+	public String obtenerMatricula() {
+		StoredProcedureQuery obtenerMatricula =
+	              em.createNamedStoredProcedureQuery("obtenernummatricula");
+	        return "";
 	}
 	
 

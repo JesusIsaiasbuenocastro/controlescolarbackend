@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.proyecto.control.escolar.controlescolar.components.Response;
 import com.proyecto.control.escolar.controlescolar.components.alumnos.ResponseAlumno;
+import com.proyecto.control.escolar.controlescolar.components.alumnos.ResponseAlumnoMatricula;
 import com.proyecto.control.escolar.controlescolar.components.alumnos.ResponseAlumnos;
 import com.proyecto.control.escolar.controlescolar.model.AlumnoModel;
 import com.proyecto.control.escolar.controlescolar.service.AlumnoService;
@@ -39,6 +40,9 @@ public class AlumnoController {
 	
 	@Autowired
 	AlumnoService alumnoService;
+	
+	@Autowired
+	ResponseAlumnoMatricula responseAlumnoMatricula;
 	
 	@GetMapping("/alumno")
 	public ResponseEntity<ResponseAlumnos> obtenerTodo() {
@@ -63,6 +67,52 @@ public class AlumnoController {
 			httpStatus =HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<>(responseAlumnos,httpStatus);
+	}
+	@GetMapping("/alumno/obtenerlista")
+	public ResponseEntity<ResponseAlumnos> obtenerlista() {
+		HttpStatus httpStatus;
+		try {
+			List<AlumnoModel> alumnos = alumnoService.obtenerLista();
+			//Validar que si existan grupos mandar el mensaje correspondiente 
+			if (alumnos.size() > 0 ) {
+				response.setCodRetorno("0");
+				response.setMensaje("Consulta exitosa");
+			}else {
+				response.setCodRetorno("1");
+				response.setMensaje("No existen registros");
+			}
+			responseAlumnos.setListaAlumnos(alumnos);
+			responseAlumnos.setResponse(response);
+			httpStatus = HttpStatus.OK;			
+		} catch (Exception e) {
+			response.setCodRetorno("-1");
+			response.setMensaje(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+			responseAlumnos.setResponse(response);
+			httpStatus =HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<>(responseAlumnos,httpStatus);
+	}
+	@GetMapping("/alumno/obtenernummatricula")
+	public ResponseEntity<ResponseAlumnoMatricula> obtenermatricula() {
+		HttpStatus httpStatus;
+		try {
+			String matricula = alumnoService.obtenerMatricula();
+			//Validar que si existan grupos mandar el mensaje correspondiente 
+			if (matricula != null) {
+				response.setCodRetorno("0");
+				response.setMensaje("Consulta exitosa");
+			}else {
+				response.setCodRetorno("1");
+				response.setMensaje("No existen registros");
+			}
+			responseAlumnoMatricula.setMatricula(matricula );
+			httpStatus = HttpStatus.OK;			
+		} catch (Exception e) {
+			response.setCodRetorno("-1");
+			response.setMensaje(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+			httpStatus =HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<>(responseAlumnoMatricula,httpStatus);
 	}
 	@GetMapping("/alumno/{id}")
 	public ResponseEntity<ResponseAlumno> obtenerPorId(@PathVariable Long id) {
