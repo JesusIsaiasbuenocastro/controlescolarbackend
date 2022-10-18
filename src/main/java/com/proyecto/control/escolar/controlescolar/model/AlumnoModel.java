@@ -3,6 +3,8 @@ package com.proyecto.control.escolar.controlescolar.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -16,17 +18,12 @@ import lombok.Data;
 @NamedStoredProcedureQuery(name = "obteneralumnos",
 procedureName = "obteneralumnos",
 resultClasses = AlumnoModel.class)
-@NamedStoredProcedureQuery(name = "obtenernummatricula",
-procedureName = "obtenernummatricula",
-resultClasses = String.class)
 public class AlumnoModel {
 	@Id
 	public Long matricula;
 	
-	@NotNull
 	public String secuencia;
-	@NotNull
-	public String year;
+	public int year;
 	@NotNull
 	@NotBlank
 	public String apellidos;

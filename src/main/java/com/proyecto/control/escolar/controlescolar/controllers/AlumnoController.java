@@ -22,6 +22,7 @@ import com.proyecto.control.escolar.controlescolar.components.alumnos.ResponseAl
 import com.proyecto.control.escolar.controlescolar.components.alumnos.ResponseAlumnoMatricula;
 import com.proyecto.control.escolar.controlescolar.components.alumnos.ResponseAlumnos;
 import com.proyecto.control.escolar.controlescolar.model.AlumnoModel;
+import com.proyecto.control.escolar.controlescolar.model.MatriculaModel;
 import com.proyecto.control.escolar.controlescolar.service.AlumnoService;
 
 @CrossOrigin(origins = "*")
@@ -43,6 +44,9 @@ public class AlumnoController {
 	
 	@Autowired
 	ResponseAlumnoMatricula responseAlumnoMatricula;
+	
+	@Autowired
+	MatriculaModel matriculaAlumno;
 	
 	@GetMapping("/alumno")
 	public ResponseEntity<ResponseAlumnos> obtenerTodo() {
@@ -96,16 +100,16 @@ public class AlumnoController {
 	public ResponseEntity<ResponseAlumnoMatricula> obtenermatricula() {
 		HttpStatus httpStatus;
 		try {
-			String matricula = alumnoService.obtenerMatricula();
+			matriculaAlumno = alumnoService.obtenerMatricula();
 			//Validar que si existan grupos mandar el mensaje correspondiente 
-			if (matricula != null) {
+			if (matriculaAlumno != null) {
 				response.setCodRetorno("0");
 				response.setMensaje("Consulta exitosa");
 			}else {
 				response.setCodRetorno("1");
 				response.setMensaje("No existen registros");
 			}
-			responseAlumnoMatricula.setMatricula(matricula );
+			responseAlumnoMatricula.setMatricula(matriculaAlumno.getMatricula().toString() );
 			httpStatus = HttpStatus.OK;			
 		} catch (Exception e) {
 			response.setCodRetorno("-1");
@@ -143,7 +147,12 @@ public class AlumnoController {
 	@PostMapping("/alumno")
 	public ResponseEntity<Response> guardar(@Valid @RequestBody AlumnoModel alumnoModel) {
 		HttpStatus httpStatus;
+		MatriculaModel matriculaAlumno;
 		try {
+			matriculaAlumno = alumnoService.obtenerMatricula();
+			alumnoModel.setMatricula(matriculaAlumno.getMatricula());
+			alumnoModel.setYear( matriculaAlumno.getYear());
+			alumnoModel.setSecuencia(matriculaAlumno.getSecuencia());
 			alumnoService.guardar(alumnoModel);
 			response.setCodRetorno("0");
 			response.setMensaje("Registrado exitosamente");
