@@ -1,5 +1,6 @@
 package com.proyecto.control.escolar.controlescolar.controllers;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -78,6 +79,7 @@ public class AlumnoController {
 		try {
 			List<AlumnoModel> alumnos = alumnoService.obtenerLista();
 			//Validar que si existan grupos mandar el mensaje correspondiente 
+			 
 			if (alumnos.size() > 0 ) {
 				response.setCodRetorno("0");
 				response.setMensaje("Consulta exitosa");
