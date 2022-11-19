@@ -1,6 +1,5 @@
 package com.proyecto.control.escolar.controlescolar.controllers;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -23,6 +22,7 @@ import com.proyecto.control.escolar.controlescolar.components.alumnos.ResponseAl
 import com.proyecto.control.escolar.controlescolar.components.alumnos.ResponseAlumnoMatricula;
 import com.proyecto.control.escolar.controlescolar.components.alumnos.ResponseAlumnos;
 import com.proyecto.control.escolar.controlescolar.model.AlumnoModel;
+import com.proyecto.control.escolar.controlescolar.model.BusquedaFiltroModel;
 import com.proyecto.control.escolar.controlescolar.model.MatriculaModel;
 import com.proyecto.control.escolar.controlescolar.service.AlumnoService;
 
@@ -78,6 +78,31 @@ public class AlumnoController {
 		HttpStatus httpStatus;
 		try {
 			List<AlumnoModel> alumnos = alumnoService.obtenerLista();
+			//Validar que si existan grupos mandar el mensaje correspondiente 
+			 
+			if (alumnos.size() > 0 ) {
+				response.setCodRetorno("0");
+				response.setMensaje("Consulta exitosa");
+			}else {
+				response.setCodRetorno("1");
+				response.setMensaje("No existen registros");
+			}
+			responseAlumnos.setListaAlumnos(alumnos);
+			responseAlumnos.setResponse(response);
+			httpStatus = HttpStatus.OK;			
+		} catch (Exception e) {
+			response.setCodRetorno("-1");
+			response.setMensaje(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+			responseAlumnos.setResponse(response);
+			httpStatus =HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<>(responseAlumnos,httpStatus);
+	}
+	@PostMapping("/alumno/obtenerlistafiltro")
+	public ResponseEntity<ResponseAlumnos> obtenerlistafiltro(@RequestBody BusquedaFiltroModel requestModel  ) {
+		HttpStatus httpStatus;
+		try {
+			List<AlumnoModel> alumnos = alumnoService.obtenerlistafiltro(requestModel);
 			//Validar que si existan grupos mandar el mensaje correspondiente 
 			 
 			if (alumnos.size() > 0 ) {

@@ -15,9 +15,17 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="alumnos")
+@NamedStoredProcedureQuery(name = "obtenerbusquedaporfiltro",
+procedureName = "obtenerbusquedaporfiltro",
+resultClasses = AlumnoModel.class,
+parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "matricula"),
+        @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "grupo")
+  })
 @NamedStoredProcedureQuery(name = "obteneralumnos",
 procedureName = "obteneralumnos",
 resultClasses = AlumnoModel.class)
+
 public class AlumnoModel {
 	@Id
 	public Long matricula;

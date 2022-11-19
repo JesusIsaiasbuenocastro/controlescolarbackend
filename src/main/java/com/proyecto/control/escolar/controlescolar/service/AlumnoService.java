@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.proyecto.control.escolar.controlescolar.components.alumnos.ResponseAlumnoMatricula;
 import com.proyecto.control.escolar.controlescolar.model.AlumnoModel;
+import com.proyecto.control.escolar.controlescolar.model.BusquedaFiltroModel;
 import com.proyecto.control.escolar.controlescolar.model.MatriculaModel;
 
 public interface AlumnoService {
@@ -13,6 +14,7 @@ public interface AlumnoService {
 	Optional<AlumnoModel> obtenerById(Long id)  throws Exception;
 	List<AlumnoModel> obtener ();
 	List<AlumnoModel> obtenerLista ();
+	List<AlumnoModel> obtenerlistafiltro (BusquedaFiltroModel requestModel);
 	MatriculaModel obtenerMatricula ();
 	void eliminar(Long id);
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.control.escolar.controlescolar.model.AlumnoModel;
+import com.proyecto.control.escolar.controlescolar.model.BusquedaFiltroModel;
 import com.proyecto.control.escolar.controlescolar.model.MatriculaModel;
 import com.proyecto.control.escolar.controlescolar.repository.AlumnoRepository;
 import com.proyecto.control.escolar.controlescolar.service.AlumnoService;
@@ -76,6 +77,19 @@ public class AlumnoServiceImpl implements AlumnoService{
 	              em.createNamedStoredProcedureQuery("obtenernummatricula");
 		obtenerMatricula.execute();
 		return (MatriculaModel) obtenerMatricula.getResultList().get(0);
+	}
+
+	@Override
+	public List<AlumnoModel> obtenerlistafiltro(BusquedaFiltroModel requestModel) {
+		StoredProcedureQuery q = em.createStoredProcedureQuery("obtenerbusquedaporfiltro", AlumnoModel.class);
+		q.registerStoredProcedureParameter("matricula", String.class, ParameterMode.IN);
+		q.registerStoredProcedureParameter("grupo", String.class, ParameterMode.IN);
+		q.setParameter("matricula", requestModel.getMatricula());
+		q.setParameter("grupo", requestModel.getGrupo());//passing null value to Param2
+
+		List<AlumnoModel> alumnosFiltro =  q.getResultList();
+		
+		return alumnosFiltro;
 	}
 	
 
