@@ -3,15 +3,22 @@ package com.proyecto.control.escolar.controlescolar.serviceImpl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.control.escolar.controlescolar.model.CalificacionesModel;
+import com.proyecto.control.escolar.controlescolar.model.MatriculaModel;
 import com.proyecto.control.escolar.controlescolar.repository.CalificacionesRepository;
 import com.proyecto.control.escolar.controlescolar.service.CalificacionesService;
 
 @Service
 public class CalificacionesServiceImpl implements CalificacionesService{
+	@PersistenceContext
+    private EntityManager em;
 	
 	@Autowired
 	CalificacionesRepository calificacionesRepository;
@@ -48,6 +55,14 @@ public class CalificacionesServiceImpl implements CalificacionesService{
 	public void eliminar(Long id) {
 		calificacionesRepository.deleteById(id);
 		
+	}
+
+	@Override
+	public List<CalificacionesModel> obtenerTodo() {
+		StoredProcedureQuery obtenerCalificaciones =
+	              em.createNamedStoredProcedureQuery("obtenercalificaciones");
+		obtenerCalificaciones.execute();
+		return (List<CalificacionesModel>) obtenerCalificaciones.getResultList();
 	}
 	
 }

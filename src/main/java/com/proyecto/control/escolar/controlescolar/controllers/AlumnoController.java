@@ -218,7 +218,7 @@ public class AlumnoController {
 		} catch (Exception e) {
 			httpStatus = HttpStatus.BAD_REQUEST;
 			response.setCodRetorno("-1");
-			response.setMensaje("Ocurrio un error al eliminar el registro");
+			response.setMensaje(e.getMessage());
 		}
 		return new ResponseEntity<>(response,httpStatus);
 	}

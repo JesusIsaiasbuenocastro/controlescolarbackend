@@ -10,5 +10,6 @@ public interface CalificacionesService {
 	void actualizar(Long id, CalificacionesModel calificacion) throws Exception;
 	Optional<CalificacionesModel> obtenerById(Long id)  throws Exception;
 	List<CalificacionesModel> obtener ();
+	List<CalificacionesModel> obtenerTodo ();
 	void eliminar(Long id);
 }

@@ -64,6 +64,30 @@ public class CalificacionesController {
 		}
 		return new ResponseEntity<>(responseCalificaciones,httpStatus);
 	}
+	@GetMapping("/calificaciones/obtenertodos")
+	public ResponseEntity<ResponseCalificaciones> obtenerTodocalificacion() {
+		HttpStatus httpStatus;
+		try {
+			List<CalificacionesModel> calificaciones = calificacionesService.obtenerTodo();
+			//Validar que si existan grupos mandar el mensaje correspondiente 
+			if (calificaciones.size() > 0 ) {
+				response.setCodRetorno("0");
+				response.setMensaje("Consulta exitosa");
+			}else {
+				response.setCodRetorno("1");
+				response.setMensaje("No existen registros");
+			}
+			responseCalificaciones.setListaCalificaciones(calificaciones);
+			responseCalificaciones.setResponse(response);
+			httpStatus = HttpStatus.OK;			
+		} catch (Exception e) {
+			response.setCodRetorno("-1");
+			response.setMensaje(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+			responseCalificaciones.setResponse(response);
+			httpStatus =HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<>(responseCalificaciones,httpStatus);
+	}
 	@GetMapping("/calificaciones/{matricula}")
 	public ResponseEntity<ResponseCalificacionesAlumno> obtenerPorId(@PathVariable Long matricula) {
 		HttpStatus httpStatus;
