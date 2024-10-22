@@ -1,10 +1,10 @@
 package com.proyecto.control.escolar.controlescolar.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedStoredProcedureQuery;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedStoredProcedureQuery;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 import lombok.Data;
 

@@ -1,12 +1,7 @@
 package com.proyecto.control.escolar.controlescolar.components.alumnos;
 
-import javax.persistence.Entity;
-import javax.persistence.NamedStoredProcedureQuery;
-import javax.persistence.Table;
-
+import jakarta.persistence.NamedStoredProcedureQuery;
 import org.springframework.context.annotation.Configuration;
-
-
 import lombok.Data;
 
 @Configuration

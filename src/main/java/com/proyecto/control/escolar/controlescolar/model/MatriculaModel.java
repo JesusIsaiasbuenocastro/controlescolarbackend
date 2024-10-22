@@ -1,9 +1,9 @@
 package com.proyecto.control.escolar.controlescolar.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedStoredProcedureQuery;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedStoredProcedureQuery;
+import jakarta.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
