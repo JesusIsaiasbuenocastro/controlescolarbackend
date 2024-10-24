@@ -47,8 +47,8 @@ public class LoginServiceImpl implements LoginService{
 		String encodedString = "";
 		try {
 			
-			 byte[] CIPHER_KEY = "12989eji292iek23092i9eik9k3e091k".getBytes(StandardCharsets.UTF_8);
-		    byte[] IV = "1234567890ABCDEF".getBytes(StandardCharsets.UTF_8);
+			/* byte[] CIPHER_KEY = "12989eji292iek23092i9eik9k3e091k".getBytes(StandardCharsets.UTF_8);
+		  byte[] IV = "1234567890ABCDEF".getBytes(StandardCharsets.UTF_8);
 		    char PADDING_CHAR = '\034';
 			
 		    Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding", "SunJCE");
@@ -57,10 +57,10 @@ public class LoginServiceImpl implements LoginService{
 	        int paddingSize = 16 - text.length() % 16;
 	        String padding = String.format("%0" + paddingSize + "d", 0).replace('0', PADDING_CHAR);
 	        String padded = text + padding;
-	        byte[] encrypted = cipher.doFinal(padded.getBytes(StandardCharsets.UTF_8));
-	        return Base64.getEncoder().encodeToString(encrypted);
-	        
-	        
+	        //byte[] encrypted = cipher.doFinal(padded.getBytes(StandardCharsets.UTF_8));
+	        //return Base64.getEncoder().encodeToString(encrypted);
+	        */
+	        return null;
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
@@ -74,7 +74,7 @@ public class LoginServiceImpl implements LoginService{
 		String decrypted = "";
 		try {
 			
-			 byte[] CIPHER_KEY = "12989eji292iek23092i9eik9k3e091k".getBytes(StandardCharsets.UTF_8);
+			/* byte[] CIPHER_KEY = "12989eji292iek23092i9eik9k3e091k".getBytes(StandardCharsets.UTF_8);
 			    byte[] IV = "1234567890ABCDEF".getBytes(StandardCharsets.UTF_8);
 			    char PADDING_CHAR = '\034';
 				
@@ -84,7 +84,7 @@ public class LoginServiceImpl implements LoginService{
 		        cipher.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(IV));
 		        byte[] encrypted = Base64.getDecoder().decode(encryptedText);
 		        String padded = new String(cipher.doFinal(encrypted), StandardCharsets.UTF_8);
-		        return padded.replaceAll(PADDING_CHAR + "+$", "");
+		        return padded.replaceAll(PADDING_CHAR + "+$", "");*/
 	        
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -38,7 +38,6 @@ public class AlumnoServiceImpl implements AlumnoService{
 				alumno -> {
 					alumno.setApellidos(alumnoParam.getApellidos());
 					alumno.setEmail(alumnoParam.getEmail());
-					alumno.setGrupo(alumnoParam.getGrupo());
 					alumno.setNombre(alumnoParam.getNombre());
 					alumno.setTelefono(alumnoParam.getTelefono());
 					

@@ -44,7 +44,4 @@ public class AlumnoModel {
 	@NotBlank
 	@Email
 	public String email;
-	@NotNull
-	@NotBlank
-	public String grupo;
 }
