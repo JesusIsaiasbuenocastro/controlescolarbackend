@@ -28,6 +28,5 @@ public class CursosModel {
 	@NotNull
 	public Date fecha_fin;
 	@NotNull
-	@NotBlank
-	public double costo;
+	public float costo;
 }

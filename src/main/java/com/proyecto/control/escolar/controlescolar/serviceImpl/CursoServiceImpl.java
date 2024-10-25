@@ -20,4 +20,10 @@ public class CursoServiceImpl implements CursosService {
 		return cursosRepository.findAll();
 	}
 
+	@Override
+	public void guardar(CursosModel curso) {
+		cursosRepository.save(curso);
+		
+	}
+
 }

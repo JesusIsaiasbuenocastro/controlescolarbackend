@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,6 +16,8 @@ import com.proyecto.control.escolar.controlescolar.components.Response;
 import com.proyecto.control.escolar.controlescolar.components.cursos.ResponseCursos;
 import com.proyecto.control.escolar.controlescolar.model.CursosModel;
 import com.proyecto.control.escolar.controlescolar.service.CursosService;
+
+import jakarta.validation.Valid;
  
 
 @CrossOrigin(origins = "*")
@@ -53,5 +57,22 @@ public class CursosController {
 			httpStatus =HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<>(responseCursos,httpStatus);
+	}
+	
+	@PostMapping("/cursos")
+	public ResponseEntity<Response> guardar(@Valid @RequestBody CursosModel cursoModel) {
+		HttpStatus httpStatus;
+		try {
+			cursosService.guardar(cursoModel);
+			response.setCodRetorno("0");
+			response.setMensaje("Registrado exitosamente");
+			httpStatus = HttpStatus.OK;
+			
+		} catch (Exception e) {
+			response.setCodRetorno("-1");
+			response.setMensaje("Ocurrió un error - "+ e.getMessage());
+			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<>(response, httpStatus);
 	}
 }
