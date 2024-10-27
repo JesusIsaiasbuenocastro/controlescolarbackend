@@ -26,4 +26,10 @@ public class CursoServiceImpl implements CursosService {
 		
 	}
 
+	@Override
+	public void eliminar(Long id) {
+		cursosRepository.deleteById(id);
+		
+	}
+
 }

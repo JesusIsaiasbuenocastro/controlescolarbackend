@@ -5,5 +5,6 @@ import com.proyecto.control.escolar.controlescolar.model.CursosModel;
 
 public interface CursosService {
 	void guardar(CursosModel curso);
+	void eliminar(Long id);
 	List<CursosModel> obtenerTodo ();
 }

@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,5 +76,21 @@ public class CursosController {
 			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<>(response, httpStatus);
+	}
+	
+	@DeleteMapping("/cursos/{id}")
+	public  ResponseEntity<Response> eliminar(@PathVariable Long id) {
+		HttpStatus httpStatus;
+		try {
+			cursosService.eliminar(id);
+			response.setCodRetorno("0");
+			response.setMensaje("Registro eliminado exitosamente");
+			httpStatus = HttpStatus.OK;
+		} catch (Exception e) {
+			httpStatus = HttpStatus.BAD_REQUEST;
+			response.setCodRetorno("-1");
+			response.setMensaje(e.getMessage());
+		}
+		return new ResponseEntity<>(response,httpStatus);
 	}
 }
