@@ -18,6 +18,6 @@ as
 		set @maximasecuencia = RIGHT('000' + Ltrim(Rtrim(max(1))),5);
 	
 	--Asignar la siquiente matricula
-	set @matricula = '2022' + @maximasecuencia
+	set @matricula = CONVERT(varchar(10), @yearActual) + @maximasecuencia
 	
 	select @matricula as matricula, @maximasecuencia as secuencia,@yearActual as year

@@ -80,11 +80,9 @@ public class AlumnoServiceImpl implements AlumnoService{
 
 	@Override
 	public List<AlumnoModel> obtenerlistafiltro(BusquedaFiltroModel requestModel) {
-		StoredProcedureQuery q = em.createStoredProcedureQuery("obtenerbusquedaporfiltro", AlumnoModel.class);
-		q.registerStoredProcedureParameter("matricula", String.class, ParameterMode.IN);
-		q.registerStoredProcedureParameter("grupo", String.class, ParameterMode.IN);
-		q.setParameter("matricula", requestModel.getMatricula());
-		q.setParameter("grupo", requestModel.getGrupo());//passing null value to Param2
+		StoredProcedureQuery q = em.createStoredProcedureQuery("obtenerbusquedaporfiltronombre", AlumnoModel.class);
+		q.registerStoredProcedureParameter("nombre", String.class, ParameterMode.IN);
+		q.setParameter("nombre", requestModel.getNombre());
 
 		List<AlumnoModel> alumnosFiltro =  q.getResultList();
 		

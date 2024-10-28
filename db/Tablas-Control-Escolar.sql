@@ -46,3 +46,33 @@ create table calificaciones (
 	FOREIGN KEY (matricula) REFERENCES alumnos(matricula),
 	FOREIGN KEY (materia) REFERENCES materias(id)
 );
+
+
+-----------------------NUEVA VERSION 
+Create table cursos(
+	id int NOT NULL IDENTITY(1,1) ,
+	nombre varchar(120)  NOT NULL,
+	nombre_maestro varchar(120) ,
+	fecha_inicio datetime,
+	fecha_fin datetime, 
+	costo decimal
+	PRIMARY KEY(id)
+);
+
+create table alumnos(
+	id int NOT NULL IDENTITY(1,1), 
+	matricula INT NOT NULL, 
+	secuencia int not null,
+ 	year int not null,
+	nombre varchar(45) not null,
+	apellidos varchar(45)not null,
+	telefono VARCHAR(10),
+	email varchar(55),
+	fechaAlta datetime default CURRENT_TIMESTAMP,
+	PRIMARY KEY(id,matricula)
+);
+
+create table alumnos_cursos(
+	id_alumno INT NOT NULL, 
+	curso_id int not null
+);

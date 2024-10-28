@@ -1,6 +1,8 @@
 package com.proyecto.control.escolar.controlescolar.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedStoredProcedureQuery;
 import jakarta.persistence.ParameterMode;
@@ -15,21 +17,23 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="alumnos")
-@NamedStoredProcedureQuery(name = "obtenerbusquedaporfiltro",
-procedureName = "obtenerbusquedaporfiltro",
+@NamedStoredProcedureQuery(name = "obtenerbusquedaporfiltronombre",
+procedureName = "obtenerbusquedaporfiltronombre",
 resultClasses = AlumnoModel.class,
 parameters = {
-		@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "matricula"),
-        @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "grupo")
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "nombre")
   })
 @NamedStoredProcedureQuery(name = "obteneralumnos",
 procedureName = "obteneralumnos",
 resultClasses = AlumnoModel.class)
 
 public class AlumnoModel {
-	@Id
-	public Long matricula;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Long id;
+
+	public Long matricula;
 	public String secuencia;
 	public int year;
 	@NotNull

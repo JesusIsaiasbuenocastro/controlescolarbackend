@@ -1,7 +1,7 @@
 create procedure obteneralumnos 
 as
 	SET NOCOUNT ON;
-	select matricula, secuencia, year,nombre, apellidos, telefono, email, g.descripcion  as grupo
+	select matricula, secuencia, year,nombre, apellidos, telefono, email, g.nombre  as grupo
 from alumnos a
-inner join grupos g on a.grupo =  g.id
+inner join curso g on a.id =  g.id
 order by a.apellidos asc

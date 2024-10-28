@@ -4,6 +4,5 @@ import lombok.Data;
 
 @Data
 public class BusquedaFiltroModel {
-	public String matricula;
-	public String grupo;
+	public String nombre;
 }

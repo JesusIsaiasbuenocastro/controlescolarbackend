@@ -76,6 +76,7 @@ public class AlumnoController {
 	@GetMapping("/alumno/obtenerlista")
 	public ResponseEntity<ResponseAlumnos> obtenerlista() {
 		HttpStatus httpStatus;
+		responseAlumnos = new ResponseAlumnos();
 		try {
 			List<AlumnoModel> alumnos = alumnoService.obtenerLista();
 			//Validar que si existan grupos mandar el mensaje correspondiente 
@@ -126,6 +127,7 @@ public class AlumnoController {
 	@GetMapping("/alumno/obtenernummatricula")
 	public ResponseEntity<ResponseAlumnoMatricula> obtenermatricula() {
 		HttpStatus httpStatus;
+		responseAlumnoMatricula = new ResponseAlumnoMatricula();
 		try {
 			matriculaAlumno = alumnoService.obtenerMatricula();
 			//Validar que si existan grupos mandar el mensaje correspondiente 
