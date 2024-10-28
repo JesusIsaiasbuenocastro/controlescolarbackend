@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.proyecto.control.escolar.controlescolar.components.Response;
+import com.proyecto.control.escolar.controlescolar.components.cursos.ResponseCurso;
 import com.proyecto.control.escolar.controlescolar.components.cursos.ResponseCursos;
 import com.proyecto.control.escolar.controlescolar.model.CursosModel;
 import com.proyecto.control.escolar.controlescolar.service.CursosService;
@@ -36,9 +38,13 @@ public class CursosController {
 	@Autowired
 	ResponseCursos responseCursos;
 	
+	@Autowired
+	ResponseCurso responseCurso;
+	
 	@GetMapping("/cursos")
 	public ResponseEntity<ResponseCursos> obtenerTodo() {
 		HttpStatus httpStatus;
+		responseCursos = new ResponseCursos();
 		try {
 			List<CursosModel> cursos = cursosService.obtenerTodo();
 			//Validar que si existan grupos mandar el mensaje correspondiente 
@@ -92,5 +98,49 @@ public class CursosController {
 			response.setMensaje(e.getMessage());
 		}
 		return new ResponseEntity<>(response,httpStatus);
+	}
+	
+	@PutMapping("/cursos/{id}")
+	public  ResponseEntity<Response> actualizar(@PathVariable Long id ,@RequestBody CursosModel curso) {
+		HttpStatus httpStatus;
+		try {
+			cursosService.actualizar(id, curso);
+			response.setCodRetorno("0");
+			response.setMensaje("Actualizado exitosamente");
+			httpStatus = HttpStatus.OK;
+		} catch (Exception e) {
+			httpStatus = HttpStatus.BAD_REQUEST;
+			response.setCodRetorno("-1");
+			response.setMensaje(e.getMessage());
+		}
+		return new ResponseEntity<>(response,httpStatus);
+	}
+	
+	@GetMapping("/cursos/{id}")
+	public ResponseEntity<ResponseCurso> obtenerPorId(@PathVariable Long id) {
+		HttpStatus httpStatus;
+		responseCurso = new ResponseCurso();
+		try {
+			CursosModel cursoModel = cursosService.obtenerById(id).get();
+			//Validar que si existan grupos mandar el mensaje correspondiente 
+			if (cursoModel != null) {
+				response.setCodRetorno("0");
+				response.setMensaje("Consulta exitosa");
+			}else {
+				response.setCodRetorno("1");
+				response.setMensaje("No existen registros");
+			}
+			responseCurso.setCurso(cursoModel);
+			responseCurso.setResponse(response);
+			httpStatus = HttpStatus.OK;
+			
+			
+		} catch (Exception e) {
+			response.setCodRetorno("-1");
+			response.setMensaje(e.getMessage());
+			responseCurso.setResponse(response);
+			httpStatus = HttpStatus.BAD_REQUEST;
+		}
+		return new ResponseEntity<>(responseCurso,httpStatus);
 	}
 }

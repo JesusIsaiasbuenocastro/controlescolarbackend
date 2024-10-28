@@ -3,7 +3,6 @@ package com.proyecto.control.escolar.controlescolar.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.proyecto.control.escolar.controlescolar.components.alumnos.ResponseAlumnoMatricula;
 import com.proyecto.control.escolar.controlescolar.model.AlumnoModel;
 import com.proyecto.control.escolar.controlescolar.model.BusquedaFiltroModel;
 import com.proyecto.control.escolar.controlescolar.model.MatriculaModel;
