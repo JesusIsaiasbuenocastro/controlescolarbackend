@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.proyecto.control.escolar.controlescolar.components.Response;
 import com.proyecto.control.escolar.controlescolar.components.cursos.ResponseCurso;
 import com.proyecto.control.escolar.controlescolar.components.cursos.ResponseCursos;
+import com.proyecto.control.escolar.controlescolar.components.cursos.ResponseCursosPorAlumno;
+import com.proyecto.control.escolar.controlescolar.model.AlumnoModel;
 import com.proyecto.control.escolar.controlescolar.model.CursosModel;
 import com.proyecto.control.escolar.controlescolar.service.CursosService;
 
@@ -40,6 +42,9 @@ public class CursosController {
 	
 	@Autowired
 	ResponseCurso responseCurso;
+	
+	@Autowired
+	ResponseCursosPorAlumno responseCursosPorAlumno;
 	
 	@GetMapping("/cursos")
 	public ResponseEntity<ResponseCursos> obtenerTodo() {
@@ -142,5 +147,31 @@ public class CursosController {
 			httpStatus = HttpStatus.BAD_REQUEST;
 		}
 		return new ResponseEntity<>(responseCurso,httpStatus);
+	}
+
+	@GetMapping("/cursos/alumnos/{id}")
+	public ResponseEntity<ResponseCursosPorAlumno> obteneralumnosporcurso(@PathVariable Long id) {
+		HttpStatus httpStatus;
+		responseCursosPorAlumno = new ResponseCursosPorAlumno();
+		try {
+			List<AlumnoModel> alumnosPorCurso = cursosService.obtenerCursosPorAlumno(id);
+			//Validar que si existan grupos mandar el mensaje correspondiente 
+			if (alumnosPorCurso.size() > 0 ) {
+				response.setCodRetorno("0");
+				response.setMensaje("Consulta exitosa");
+			}else {
+				response.setCodRetorno("1");
+				response.setMensaje("No existen registros");
+			}
+			responseCursosPorAlumno.setAlumnos(alumnosPorCurso);
+			responseCursosPorAlumno.setResponse(response);
+			httpStatus = HttpStatus.OK;			
+		} catch (Exception e) {
+			response.setCodRetorno("-1");
+			response.setMensaje(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+			responseCursosPorAlumno.setResponse(response);
+			httpStatus =HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<>(responseCursosPorAlumno,httpStatus);
 	}
 }

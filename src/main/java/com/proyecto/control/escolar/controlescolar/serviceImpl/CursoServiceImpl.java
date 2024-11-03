@@ -12,11 +12,19 @@ import com.proyecto.control.escolar.controlescolar.model.CursosModel;
 import com.proyecto.control.escolar.controlescolar.repository.CursosRepository;
 import com.proyecto.control.escolar.controlescolar.service.CursosService;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.ParameterMode;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.StoredProcedureQuery;
+
 @Service
 public class CursoServiceImpl implements CursosService {
 	
 	@Autowired
 	CursosRepository cursosRepository;
+	@PersistenceContext
+    private EntityManager em;
+	
 
 	@Override
 	public List<CursosModel> obtenerTodo() {
@@ -51,6 +59,17 @@ public class CursoServiceImpl implements CursosService {
 	@Override
 	public Optional<CursosModel> obtenerById(Long id) throws Exception {
 		return Optional.ofNullable(cursosRepository.findById(id).orElseThrow(() -> new Exception("El registro no existe")));
+	}
+
+	@Override
+	public List<AlumnoModel> obtenerCursosPorAlumno(Long idCurso) {
+        StoredProcedureQuery q = em.createStoredProcedureQuery("obteneralumnosporcurso", AlumnoModel.class);
+		q.registerStoredProcedureParameter("idCurso", Integer.class, ParameterMode.IN);
+		q.setParameter("idCurso", idCurso);
+
+		List<AlumnoModel> alumnosFiltro =  q.getResultList();
+		
+		return alumnosFiltro;
 	}
 
 }

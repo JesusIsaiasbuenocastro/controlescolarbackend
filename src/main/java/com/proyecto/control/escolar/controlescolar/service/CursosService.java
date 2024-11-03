@@ -12,4 +12,5 @@ public interface CursosService {
 	List<CursosModel> obtenerTodo ();
 	void actualizar(Long id, CursosModel curso) throws Exception;
 	Optional<CursosModel> obtenerById(Long id)  throws Exception;
+	List<AlumnoModel> obtenerCursosPorAlumno (Long idCurso);
 }
