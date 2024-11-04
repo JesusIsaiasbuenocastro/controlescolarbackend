@@ -1,6 +1,5 @@
 package com.proyecto.control.escolar.controlescolar.model;
 
-import com.proyecto.control.escolar.controlescolar.components.cursos.ResponseCursosPorAlumno;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -21,7 +20,7 @@ parameters = {
 resultClasses = AlumnoModel.class )
 public class BusquedaAlumnosCursoModel {
 	@Id
-	public Long idCurso;
+	public Long curso_id;
 	
 	public int id_alumno;
 }

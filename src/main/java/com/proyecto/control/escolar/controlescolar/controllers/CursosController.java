@@ -1,5 +1,6 @@
 package com.proyecto.control.escolar.controlescolar.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.proyecto.control.escolar.controlescolar.components.Response;
 import com.proyecto.control.escolar.controlescolar.components.cursos.ResponseCurso;
 import com.proyecto.control.escolar.controlescolar.components.cursos.ResponseCursos;
-import com.proyecto.control.escolar.controlescolar.components.cursos.ResponseCursosPorAlumno;
+import com.proyecto.control.escolar.controlescolar.components.cursos.ResponseCursosAlumnos;
+import com.proyecto.control.escolar.controlescolar.components.cursos.CursosPorAlumno;
 import com.proyecto.control.escolar.controlescolar.model.AlumnoModel;
 import com.proyecto.control.escolar.controlescolar.model.CursosModel;
 import com.proyecto.control.escolar.controlescolar.service.CursosService;
@@ -44,7 +46,7 @@ public class CursosController {
 	ResponseCurso responseCurso;
 	
 	@Autowired
-	ResponseCursosPorAlumno responseCursosPorAlumno;
+	ResponseCursosAlumnos responseCursosAlumnos;
 	
 	@GetMapping("/cursos")
 	public ResponseEntity<ResponseCursos> obtenerTodo() {
@@ -149,29 +151,52 @@ public class CursosController {
 		return new ResponseEntity<>(responseCurso,httpStatus);
 	}
 
-	@GetMapping("/cursos/alumnos/{id}")
-	public ResponseEntity<ResponseCursosPorAlumno> obteneralumnosporcurso(@PathVariable Long id) {
-		HttpStatus httpStatus;
-		responseCursosPorAlumno = new ResponseCursosPorAlumno();
+	@GetMapping("/cursos/alumnos")
+	public ResponseEntity<ResponseCursosAlumnos> obteneralumnosporcurso() {
+		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+		responseCursosAlumnos = new ResponseCursosAlumnos();
+		List<CursosPorAlumno> listaCursos = new ArrayList<CursosPorAlumno>();
+		
 		try {
-			List<AlumnoModel> alumnosPorCurso = cursosService.obtenerCursosPorAlumno(id);
+			List<CursosModel> cursos = cursosService.obtenerTodo();
 			//Validar que si existan grupos mandar el mensaje correspondiente 
-			if (alumnosPorCurso.size() > 0 ) {
+			if (cursos.size() > 0 ) {
+				
+				cursos.forEach(item -> {
+						CursosPorAlumno cursosPorAlumnos = new CursosPorAlumno() ;
+						cursosPorAlumnos.setCursos(item);
+
+						List<AlumnoModel> alumnosPorCurso = cursosService.obtenerCursosPorAlumno(item.getId());
+						//Validar que si existan grupos mandar el mensaje correspondiente 
+						
+						if (alumnosPorCurso.size() > 0 ) {
+							cursosPorAlumnos.setAlumnos(alumnosPorCurso);
+						}else {
+							cursosPorAlumnos.setAlumnos( new ArrayList<AlumnoModel>());
+						}
+						listaCursos.add(cursosPorAlumnos);
+								
+					}
+				);
 				response.setCodRetorno("0");
 				response.setMensaje("Consulta exitosa");
+				responseCursosAlumnos.setCursosAlumnos(listaCursos);
+				responseCursosAlumnos.setResponse(response);
+				httpStatus = HttpStatus.OK;	
+				
+				
 			}else {
 				response.setCodRetorno("1");
-				response.setMensaje("No existen registros");
+				response.setMensaje("No hay cursos disponibles");
 			}
-			responseCursosPorAlumno.setAlumnos(alumnosPorCurso);
-			responseCursosPorAlumno.setResponse(response);
-			httpStatus = HttpStatus.OK;			
+			
+			
 		} catch (Exception e) {
 			response.setCodRetorno("-1");
 			response.setMensaje(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-			responseCursosPorAlumno.setResponse(response);
+			responseCursosAlumnos.setResponse(response);
 			httpStatus =HttpStatus.INTERNAL_SERVER_ERROR;
 		}
-		return new ResponseEntity<>(responseCursosPorAlumno,httpStatus);
+		return new ResponseEntity<>(responseCursosAlumnos,httpStatus);
 	}
 }

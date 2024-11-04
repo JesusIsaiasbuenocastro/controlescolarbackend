@@ -6,12 +6,13 @@ import org.springframework.stereotype.Component;
 
 import com.proyecto.control.escolar.controlescolar.components.Response;
 import com.proyecto.control.escolar.controlescolar.model.AlumnoModel;
+import com.proyecto.control.escolar.controlescolar.model.CursosModel;
 
 import lombok.Data;
 
 @Data
 @Component
-public class ResponseCursosPorAlumno {
-	Response response;
+public class CursosPorAlumno {
+	CursosModel cursos;
 	List<AlumnoModel> alumnos;
 }
